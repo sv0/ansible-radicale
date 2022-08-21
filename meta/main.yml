@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  role_name: radicale
+  namespace: sv0
+  author: slavik@svyrydiuk.eu
+  maintainer: slavik@svyrydiuk.eu
+  company: Svyrydiuk
+  description: >
+    Install and configure radicale,
+    simple calendar and addressbook server.
+  min_ansible_version: 2.12
+  license: ""
+  platforms:
+    - name: Debian
+      versions:
+        - buster

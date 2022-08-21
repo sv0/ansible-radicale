@@ -1,0 +1,13 @@
+---
+radicale_port: 5232
+radicale_hosts:
+  - '0.0.0.0'
+
+radicale_domain: "cal.svyrydiuk.eu"
+radicale_tls_certificate: "/etc/ssl/{{ radicale_domain }}.crt"
+radicale_tls_private_key: "/etc/ssl/private/{{ radicale_domain }}.key"
+
+radicale_user: radicale
+radicale_group: nogroup
+radicale_group_ssl: ssl-cert
+radicale_pidfile: /run/radicale/radicale.pid

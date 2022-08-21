@@ -1,0 +1,9 @@
+---
+- name: restart radicale
+  service:
+    name:  radicale
+    state: restarted
+
+- name: reload systemd
+  systemd:
+    daemon_reload: true

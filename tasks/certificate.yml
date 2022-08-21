@@ -1,0 +1,48 @@
+---
+- name: TLS certificate
+  block:
+    - name: Setting certificate directory
+      set_fact:
+        certificate_dir: "{{ role_path }}/../../var/lib/dehydrated/certs/{{ certificate_hostname }}"
+
+    - name: Setting certificate fullchain
+      set_fact:
+        certificate_fullchain: "{{ certificate_dir }}/fullchain.pem"
+
+    - name: "Debug certificate_fullchain"
+      debug:
+        var: certificate_fullchain
+
+    - name: Setting certificate key path
+      set_fact:
+        certificate_privkey: "{{ certificate_dir }}/privkey.pem"
+
+    - name: "Debug radicale_self_signed_certificate"
+      debug:
+        var: radicale_self_signed_certificate
+
+    - name: "Copy certificate to remote host"
+      copy:
+        src: "{{ certificate_fullchain }}"
+        dest: "/etc/ssl/{{ certificate_hostname }}.crt"
+
+    - name: "Copy private key to remote host"
+      copy:
+        src: "{{ certificate_privkey }}"
+        dest: "/etc/ssl/private/{{ certificate_hostname }}.key"
+        group: ssl-cert
+        mode: "0640"
+  when: >
+    radicale_self_signed_certificate is undefined
+    or not radicale_self_signed_certificate
+
+- name: Generate a Self Signed OpenSSL certificate
+  shell: |
+    openssl genrsa -out "/etc/ssl/private/{{ certificate_hostname }}.key" 4096
+    openssl req -new -x509 -key "/etc/ssl/private/{{ certificate_hostname }}.key" \
+      -out "/etc/ssl/{{ certificate_hostname }}.crt" -days 365 \
+      -subj "/C=US/ST=Example/L=Example/O=Dis/CN={{ certificate_hostname }}"
+  when:
+    - radicale_self_signed_certificate is defined
+    - (radicale_self_signed_certificate)
+  notify: restart adicale
