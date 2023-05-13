@@ -1,9 +1,14 @@
 ---
 - name: TLS certificate
+  when: >
+    radicale_self_signed_certificate is undefined
+    or not radicale_self_signed_certificate
   block:
     - name: Setting certificate directory
       set_fact:
-        certificate_dir: "{{ role_path }}/../../var/lib/dehydrated/certs/{{ certificate_hostname }}"
+        certificate_dir:
+          "{{ role_path }}/../../certs/{{ certificate_hostname }}"
+      when: certificate_dir is undefined
 
     - name: Setting certificate fullchain
       set_fact:
@@ -25,6 +30,7 @@
       copy:
         src: "{{ certificate_fullchain }}"
         dest: "/etc/ssl/{{ certificate_hostname }}.crt"
+        mode: "0640"
 
     - name: "Copy private key to remote host"
       copy:
@@ -32,14 +38,12 @@
         dest: "/etc/ssl/private/{{ certificate_hostname }}.key"
         group: ssl-cert
         mode: "0640"
-  when: >
-    radicale_self_signed_certificate is undefined
-    or not radicale_self_signed_certificate
 
 - name: Generate a Self Signed OpenSSL certificate
   shell: |
     openssl genrsa -out "/etc/ssl/private/{{ certificate_hostname }}.key" 4096
-    openssl req -new -x509 -key "/etc/ssl/private/{{ certificate_hostname }}.key" \
+    openssl req -new -x509 \
+      -key "/etc/ssl/private/{{ certificate_hostname }}.key" \
       -out "/etc/ssl/{{ certificate_hostname }}.crt" -days 365 \
       -subj "/C=US/ST=Example/L=Example/O=Dis/CN={{ certificate_hostname }}"
   when:

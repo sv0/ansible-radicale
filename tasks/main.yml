@@ -1,6 +1,5 @@
 ---
-
-- name: "include tasks from certificate.yml"
+- name: Include tasks from certificate.yml
   include_tasks:
     file: certificate.yml
     apply:
@@ -9,7 +8,7 @@
   tags:
     - cert
 
-- name: "Put TLS cert to {{ radicale_tls_certificate }}"
+- name: Put TLS cert to {{ radicale_tls_certificate }}
   copy:
     src: "{{ certificate_fullchain }}"
     dest: "{{ radicale_tls_certificate }}"
@@ -18,9 +17,9 @@
     mode: 0644
   tags:
     - cert
-  notify: restart radicale
+  notify: Restart radicale
 
-- name: "Put TLS certificate private {{ radicale_tls_private_key }}"
+- name: Put TLS certificate private {{ radicale_tls_private_key }}
   copy:
     src: "{{ certificate_privkey }}"
     dest: "{{ radicale_tls_private_key }}"
@@ -29,35 +28,37 @@
     mode: 0640
   tags:
     - cert
-  notify: restart radicale
+  notify: Restart radicale
 
-- name: add user {{ radicale_user }} to group {{ radicale_group_ssl }}
+- name: Add radicale user to group {{ radicale_group_ssl }}
   user:
     name: "{{ radicale_user }}"
     groups: "{{ radicale_group_ssl }}"
     append: true
 
-- name: create directory {{ radicale_pidfile | dirname }}
+- name: Create directory {{ radicale_pidfile | dirname }}
   file:
     path: "{{ radicale_pidfile | dirname }}"
     state: directory
+    mode: 0755
 
-- name: create directory /var/lib/radicale
+- name: Create directory /var/lib/radicale
   file:
     path: /var/lib/radicale
     state: directory
     owner: "{{ radicale_user }}"
     group: "{{ radicale_group }}"
+    mode: 0755
 
 # filesystem_folder = /var/lib/radicale/collections
 
-- name: install radicale
+- name: Install radicale
   package:
     name:
       - python3-radicale
       - radicale
 
-- name: enable radicale
+- name: Enable radicale
   lineinfile:
     path: /etc/default/radicale
     line: "ENABLE_RADICALE=yes"
@@ -69,8 +70,8 @@
     dest: /etc/radicale/config
     owner: root
     group: root
-    mode: '0644'
-  notify: restart radicale
+    mode: 0644
+  notify: Restart radicale
 
 - name: Create systemd service file
   template:
@@ -80,10 +81,23 @@
     owner: root
     group: root
   notify:
-    - reload systemd
-    - restart radicale
+    - Reload systemd
+    - Restart radicale
 
 - name: Enable radicale service
   systemd:
     name: radicale
     enabled: true
+
+- name: Create radicale users
+  community.general.htpasswd:
+    path: /etc/radicale/users
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    owner: "{{ radicale_user }}"
+    group: "{{ radicale_group }}"
+    mode: 0640
+  with_items: "{{ radicale_user_list }}"
+  when:
+    - radicale_user_list is defined
+    - (radicale_user_list)
