@@ -57,6 +57,7 @@
     name:
       - python3-radicale
       - radicale
+      - nginx
 
 - name: Enable radicale
   lineinfile:
