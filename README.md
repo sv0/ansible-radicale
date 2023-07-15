@@ -7,6 +7,7 @@ It has been tested for the following Linux distributions:
 
 * Debian Buster
 
+
 - [Getting Started](#getting-started)
   - [Prerequisities](#prerequisities)
   - [Installing](#installing)
@@ -35,7 +36,7 @@ possible configuration properties.
 
 ## Testing
 
-    molecule init scenario --driver-name docker
+    molecule test
 
 ## Useful links
 
