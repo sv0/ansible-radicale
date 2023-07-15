@@ -1,4 +1,15 @@
 ---
+- name: Create group  {{ radicale_group_ssl }}
+  ansible.builtin.group:
+    name: '{{ radicale_group_ssl }}'
+    system: true
+
+- name: Add radicale user to group {{ radicale_group_ssl }}
+  user:
+    name: "{{ radicale_user }}"
+    groups: "{{ radicale_group_ssl }}"
+    append: true
+
 - name: Include tasks from certificate.yml
   include_tasks:
     file: certificate.yml
@@ -7,34 +18,7 @@
         - cert
   tags:
     - cert
-
-- name: Put TLS cert to {{ radicale_tls_certificate }}
-  copy:
-    src: "{{ certificate_fullchain }}"
-    dest: "{{ radicale_tls_certificate }}"
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - cert
-  notify: Restart radicale
-
-- name: Put TLS certificate private {{ radicale_tls_private_key }}
-  copy:
-    src: "{{ certificate_privkey }}"
-    dest: "{{ radicale_tls_private_key }}"
-    owner: root
-    group: "{{ radicale_group_ssl }}"
-    mode: 0640
-  tags:
-    - cert
-  notify: Restart radicale
-
-- name: Add radicale user to group {{ radicale_group_ssl }}
-  user:
-    name: "{{ radicale_user }}"
-    groups: "{{ radicale_group_ssl }}"
-    append: true
+    - notest
 
 - name: Create directory {{ radicale_pidfile | dirname }}
   file:
@@ -51,6 +35,11 @@
     mode: 0755
 
 # filesystem_folder = /var/lib/radicale/collections
+
+- name: Only run "update_cache=yes" if the last one is more than 100h ago
+  apt:
+    update_cache: true
+    cache_valid_time: 360000
 
 - name: Install radicale
   package:
