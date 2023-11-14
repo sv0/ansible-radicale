@@ -8,7 +8,7 @@
     - cert
   block:
     - name: Setting certificate directory
-      set_fact:
+      ansible.builtin.set_fact:
         radicale_certificate_dir:
           "{{ inventory_dir }}/../../certs/{{ radicale_domain }}"
       when: >
@@ -16,32 +16,32 @@
         or not radicale_certificate_dir
 
     - name: Setting certificate fullchain
-      set_fact:
+      ansible.builtin.set_fact:
         radicale_certificate_fullchain:
           "{{ radicale_certificate_dir }}/fullchain.pem"
 
     - name: "Debug certificate_fullchain"
-      debug:
+      ansible.builtin.debug:
         var: radicale_certificate_fullchain
 
     - name: Setting certificate key path
-      set_fact:
+      ansible.builtin.set_fact:
         radicale_certificate_privkey:
           "{{ radicale_certificate_dir }}/privkey.pem"
 
     - name: "Debug radicale_self_signed_certificate"
-      debug:
+      ansible.builtin.debug:
         var: radicale_self_signed_certificate
 
     - name: "Copy certificate to remote host"
-      copy:
+      ansible.builtin.copy:
         src: "{{ radicale_certificate_fullchain }}"
         dest: "/etc/ssl/{{ radicale_domain }}.crt"
         mode: "0640"
       notify: Restart radicale
 
     - name: "Copy private key to remote host"
-      copy:
+      ansible.builtin.copy:
         src: "{{ radicale_certificate_privkey }}"
         dest: "/etc/ssl/private/{{ radicale_domain }}.key"
         mode: "0640"
@@ -52,14 +52,16 @@
         - cert
         - notest
 
+
 - name: Generate a Self Signed OpenSSL certificate
-  shell: |
+  ansible.builtin.shell: |
     openssl genrsa -out "/etc/ssl/private/{{ radicale_domain }}.key" 4096
     openssl req -new -x509 \
       -key "/etc/ssl/private/{{ radicale_domain }}.key" \
-      -out "/etc/ssl/{{ radicale_domain }}.crt" -days 365 \
+      -out "/etc/ssl/{{ radicale_domain }}.crt" -days 3650 \
       -subj "/C=US/ST=Example/L=Example/O=Dis/CN={{ radicale_domain }}"
   when:
     - radicale_self_signed_certificate is defined
     - (radicale_self_signed_certificate)
+  changed_when: false
   notify: Restart radicale

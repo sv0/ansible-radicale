@@ -1,9 +1,9 @@
 ---
 - name: Restart radicale
-  service:
+  ansible.builtin.service:
     name: radicale
     state: restarted
 
 - name: Reload systemd
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
