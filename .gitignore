@@ -3,3 +3,4 @@ tests/.cache
 .molecule
 .cache
 pytestdebug.log
+__pycache__
