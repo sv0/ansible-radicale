@@ -2,3 +2,4 @@ tests/playbook.retry
 tests/.cache
 .molecule
 .cache
+pytestdebug.log
