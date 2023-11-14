@@ -1,0 +1,26 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    radicale_user_list:
+      - username: test
+        password: suprsecurepico
+
+  pre_tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        var: ansible_distribution_release
+
+    - name: apt-get update
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 86400
+
+    - name: Install net-tools (required by testinfa)
+      ansible.builtin.apt:
+        name: net-tools
+
+  tasks:
+    - name: "Include sv0.radicale"
+      ansible.builtin.include_role:
+        name: "sv0.radicale"
