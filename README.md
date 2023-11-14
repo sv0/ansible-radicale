@@ -6,6 +6,8 @@ This ansible role installs **radicale**  CalDAV (calendars, to-do lists) and Car
 It has been tested for the following Linux distributions:
 
 * Debian Buster
+* Debian Bullseye
+* Debian Bookworm
 
 
 - [Getting Started](#getting-started)
@@ -34,9 +36,15 @@ Look at [defaults](defaults/main.yml) variables file to see the
 possible configuration properties.
 
 
+### Variables
+
+    radicale_domain: "cal.example.eu"  # domain where CalDAV/CardDAV service will be accessible
+
+
 ## Testing
 
     molecule test
+
 
 ## Useful links
 
