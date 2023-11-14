@@ -5,13 +5,13 @@
     system: true
 
 - name: Add radicale user to group {{ radicale_group_ssl }}
-  user:
+  ansible.builtin.user:
     name: "{{ radicale_user }}"
     groups: "{{ radicale_group_ssl }}"
     append: true
 
 - name: Include tasks from certificate.yml
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: certificate.yml
     apply:
       tags:
@@ -20,42 +20,43 @@
     - cert
     - notest
 
-- name: Create directory {{ radicale_pidfile | dirname }}
-  file:
-    path: "{{ radicale_pidfile | dirname }}"
-    state: directory
-    mode: 0755
+# TODO delete
+# - name: Create directory {{ radicale_pidfile | dirname }}
+#   ansible.builtin.file:
+#     path: "{{ radicale_pidfile | dirname }}"
+#     state: directory
+#     owner: root
+#     mode: 0755
 
 - name: Create directory /var/lib/radicale
-  file:
+  ansible.builtin.file:
     path: /var/lib/radicale
     state: directory
     owner: "{{ radicale_user }}"
     group: "{{ radicale_group }}"
     mode: 0755
 
-# filesystem_folder = /var/lib/radicale/collections
-
 - name: Only run "update_cache=yes" if the last one is more than 100h ago
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 360000
 
-- name: Install radicale
-  package:
+- name: Install required packages
+  ansible.builtin.package:
     name:
       - python3-radicale
+      - python3-passlib
       - radicale
       - nginx
 
 - name: Enable radicale
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/default/radicale
     line: "ENABLE_RADICALE=yes"
     regex: "^#ENABLE_RADICALE"
 
 - name: Create /etc/radicale/config
-  template:
+  ansible.builtin.template:
     src: config.j2
     dest: /etc/radicale/config
     owner: root
@@ -64,7 +65,7 @@
   notify: Restart radicale
 
 - name: Create systemd service file
-  template:
+  ansible.builtin.template:
     src: radicale.service.j2
     dest: /etc/systemd/system/radicale.service
     mode: 0644
@@ -75,7 +76,7 @@
     - Restart radicale
 
 - name: Enable radicale service
-  systemd:
+  ansible.builtin.systemd:
     name: radicale
     enabled: true
 
