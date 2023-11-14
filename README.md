@@ -15,11 +15,9 @@ It has been tested for the following Linux distributions:
   - [Installing](#installing)
 - [Usage](#usage)
 - [Testing](#testing)
-- [Built With](#built-with)
-- [Versioning](#versioning)
 - [Authors](#authors)
 - [License](#license)
-- [Contributing](#contributing)
+- [Useful links](#useful-links)
 
 
 ## Getting Started
@@ -45,6 +43,10 @@ possible configuration properties.
 
     molecule test
 
+
+## Authors
+
+- [Slavik Svyrydiuk](https://slavik.svyrydiuk.eu)
 
 ## Useful links
 
