@@ -3,6 +3,8 @@ name: Galaxy Action
 
 on:
   push:
+    branches:
+      - master
     tags:
 
 jobs:
