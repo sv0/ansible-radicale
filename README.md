@@ -1,4 +1,4 @@
-Radicale Ansible role v. 0.0.2
+Radicale Ansible role v. 0.0.3
 ==============================
 
 - [Getting Started](#getting-started)
