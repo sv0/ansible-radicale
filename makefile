@@ -22,8 +22,8 @@ release:
 	@git checkout master
 	@git merge devel
 	@git checkout devel
-	# @git push --all
-	# @git push --tags
+	@git push --all
+	@git push --tags
 
 .PHONY: minor
 minor: release
