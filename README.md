@@ -1,14 +1,5 @@
-Radicale Ansible role
-=====================
-
-This ansible role installs **radicale**  CalDAV (calendars, to-do lists) and CardDAV (contacts) server.
-
-It has been tested for the following Linux distributions:
-
-* Debian Buster
-* Debian Bullseye
-* Debian Bookworm
-
+Radicale Ansible role v. 0.0.1
+==============================
 
 - [Getting Started](#getting-started)
   - [Prerequisities](#prerequisities)
@@ -22,21 +13,34 @@ It has been tested for the following Linux distributions:
 
 ## Getting Started
 
+This ansible role installs **radicale**  CalDAV (calendars, to-do lists) and CardDAV (contacts) server.
+
+It has been tested for the following Linux distributions:
+
+* Debian Buster
+* Debian Bullseye
+* Debian Bookworm
+
 
 ### Prerequisities
 
 Ansible 2.12 version installed.
 
 
+### Installing
+
+    ansible-galaxy role install sv0.radicale
+
+
 ## Usage
+
+### Variables
 
 Look at [defaults](defaults/main.yml) variables file to see the
 possible configuration properties.
 
-
-### Variables
-
-    radicale_domain: "cal.example.eu"  # domain where CalDAV/CardDAV service will be accessible
+    # specify host domain where CalDAV/CardDAV service will be accessible
+    radicale_domain: "cal.example.eu"
 
 
 ## Testing
@@ -47,6 +51,7 @@ possible configuration properties.
 ## Authors
 
 - [Slavik Svyrydiuk](https://slavik.svyrydiuk.eu)
+
 
 ## Useful links
 
