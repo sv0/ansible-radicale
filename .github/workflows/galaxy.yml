@@ -1,8 +1,10 @@
 ---
-name: GitHub Action
+name: Galaxy Action
 
 on:
-  - push
+  push:
+    tags:
+      - *
 
 jobs:
   build:
@@ -10,6 +12,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+
       - name: galaxy
         uses: robertdebock/galaxy-action@1.2.1
         with:
