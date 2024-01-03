@@ -1,5 +1,6 @@
 Radicale Ansible role v. 0.0.3
 ==============================
+[![CI](https://github.com/sv0/ansible-radicale/workflows/CI/badge.svg?event=push)](https://github.com/sv0/ansible-radicale/actions?query=workflow%3ACI)
 
 - [Getting Started](#getting-started)
   - [Prerequisities](#prerequisities)
