@@ -5,6 +5,7 @@
     radicale_user_list:
       - username: test
         password: suprsecurepico
+    radicale_self_signed_certificate: true
 
   pre_tasks:
     - name: Debug
