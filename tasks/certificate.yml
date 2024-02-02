@@ -48,20 +48,25 @@
         owner: root
         group: "{{ radicale_group_ssl }}"
       notify: Restart radicale
-      tags:
-        - cert
-        - notest
 
 
 - name: Generate a Self Signed OpenSSL certificate
   ansible.builtin.shell: |
-    openssl genrsa -out "/etc/ssl/private/{{ radicale_domain }}.key" 4096
+    openssl genrsa -out "{{ radicale_tls_private_key }}" 4096
     openssl req -new -x509 \
-      -key "/etc/ssl/private/{{ radicale_domain }}.key" \
-      -out "/etc/ssl/{{ radicale_domain }}.crt" -days 3650 \
+      -key "{{ radicale_tls_private_key }}" \
+      -out "{{ radicale_tls_certificate }}" -days 3650 \
       -subj "/C=US/ST=Example/L=Example/O=Dis/CN={{ radicale_domain }}"
   when:
     - radicale_self_signed_certificate is defined
     - (radicale_self_signed_certificate)
   changed_when: false
+  notify: Restart radicale
+
+- name: Adjust private key owner and access
+  ansible.builtin.file:
+    path: "{{ radicale_tls_private_key }}"
+    mode: "0640"
+    owner: root
+    group: "{{ radicale_group_ssl }}"
   notify: Restart radicale
