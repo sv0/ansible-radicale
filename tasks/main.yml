@@ -10,15 +10,11 @@
     groups: "{{ radicale_group_ssl }}"
     append: true
 
-- name: Include tasks from certificate.yml
-  ansible.builtin.include_tasks:
+- name: Import tasks from certificate.yml
+  ansible.builtin.import_tasks:
     file: certificate.yml
-    apply:
-      tags:
-        - cert
   tags:
     - cert
-    - notest
 
 # TODO delete
 # - name: Create directory {{ radicale_pidfile | dirname }}
