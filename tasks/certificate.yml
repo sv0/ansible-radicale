@@ -37,6 +37,8 @@
       ansible.builtin.copy:
         src: "{{ radicale_certificate_fullchain }}"
         dest: "/etc/ssl/{{ radicale_domain }}.crt"
+        owner: root
+        group: "{{ radicale_group_ssl }}"
         mode: "0640"
       notify: Restart radicale
 
