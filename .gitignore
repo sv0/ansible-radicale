@@ -4,3 +4,5 @@ tests/.cache
 .cache
 pytestdebug.log
 __pycache__
+Makefile.venv
+.venv
