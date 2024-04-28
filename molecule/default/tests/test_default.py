@@ -7,10 +7,10 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
-@pytest.fixture()
-def AnsibleDefaults():
-    with open("defaults/main.yml", 'r') as stream:
-        return yaml.safe_load(stream)
+# @pytest.fixture()
+# def AnsibleDefaults():
+#     with open("defaults/main.yml", 'r') as stream:
+#         return yaml.safe_load(stream)
 
 
 @pytest.mark.parametrize("name,version", [
@@ -44,7 +44,7 @@ def test_files(host, files):
     assert f.is_file
 
 
-def test_some_command_output(host, AnsibleDefaults):
+def test_some_command_output(host):
     run = host.run("cat /etc/os-release")
     out = run.stdout+run.stderr
     assert "NAME" in out
