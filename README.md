@@ -18,7 +18,6 @@ This ansible role installs **radicale**  CalDAV (calendars, to-do lists) and Car
 
 It has been tested for the following Linux distributions:
 
-* Debian Buster
 * Debian Bullseye
 * Debian Bookworm
 

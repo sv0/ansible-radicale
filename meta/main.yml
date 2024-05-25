@@ -3,7 +3,7 @@ galaxy_info:
   role_name: radicale
   namespace: sv0
   author: slavik@svyrydiuk.eu
-  company: Svyrydiuk
+  company: Svyrydiuk.eu
   description: >
     Install and configure radicale,
     simple calendar and addressbook server.
@@ -12,7 +12,6 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - buster
         - bullseye
         - bookworm
 
