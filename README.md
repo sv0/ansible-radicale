@@ -24,7 +24,7 @@ It has been tested for the following Linux distributions:
 
 ### Prerequisities
 
-Ansible 2.12 version installed.
+Ansible 2.14 version installed.
 
 
 ### Installing

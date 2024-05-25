@@ -30,7 +30,7 @@
     state: directory
     owner: "{{ radicale_user }}"
     group: "{{ radicale_group }}"
-    mode: 0755
+    mode: 0o755
 
 - name: Only run "update_cache=yes" if the last one is more than 100h ago
   ansible.builtin.apt:
