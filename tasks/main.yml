@@ -40,10 +40,10 @@
 - name: Install required packages
   ansible.builtin.package:
     name:
-      - python3-radicale
-      - python3-passlib
-      - radicale
       - nginx
+      - python3-passlib
+      - python3-radicale
+      - radicale
 
 - name: Enable radicale
   ansible.builtin.lineinfile:
