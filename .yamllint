@@ -6,3 +6,4 @@ ignore: |
   .tox
   *.bak
   .venv
+  .github
