@@ -1,4 +1,17 @@
 ---
+- name: Only run "update_cache=yes" if the last one is more than 100h ago
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 360000
+
+- name: Install required packages
+  ansible.builtin.package:
+    name:
+      - nginx
+      - python3-passlib
+      - python3-radicale
+      - radicale
+
 - name: Create group  {{ radicale_group_ssl }}
   ansible.builtin.group:
     name: '{{ radicale_group_ssl }}'
@@ -24,26 +37,16 @@
 #     owner: root
 #     mode: 0755
 
-- name: Create directory /var/lib/radicale
+- name: Create directories in /var/lib/radicale
   ansible.builtin.file:
-    path: /var/lib/radicale
+    path: "{{ item }}"
     state: directory
     owner: "{{ radicale_user }}"
     group: "{{ radicale_group }}"
-    mode: 0o755
-
-- name: Only run "update_cache=yes" if the last one is more than 100h ago
-  ansible.builtin.apt:
-    update_cache: true
-    cache_valid_time: 360000
-
-- name: Install required packages
-  ansible.builtin.package:
-    name:
-      - nginx
-      - python3-passlib
-      - python3-radicale
-      - radicale
+    mode: "0750"
+  with_items:
+    - /var/lib/radicale
+    - /var/lib/radicale/collections
 
 - name: Enable radicale
   ansible.builtin.lineinfile:
@@ -57,14 +60,14 @@
     dest: /etc/radicale/config
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify: Restart radicale
 
 - name: Create systemd service file
   ansible.builtin.template:
     src: radicale.service.j2
     dest: /etc/systemd/system/radicale.service
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root
   notify:
@@ -83,7 +86,7 @@
     password: "{{ item.password }}"
     owner: "{{ radicale_user }}"
     group: "{{ radicale_group }}"
-    mode: 0640
+    mode: "0640"
   with_items: "{{ radicale_user_list }}"
   when:
     - radicale_user_list is defined
