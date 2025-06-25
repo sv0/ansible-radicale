@@ -51,9 +51,9 @@ destroy:
 .PHONY: release
 VERSION?=minor
 # target: release - Bump version
-release:
+release: $(VENV)
 	$(VENV)/pip install bumpversion
-	@bumpversion $(VERSION)
+	@$(VENV)/bumpversion $(VERSION)
 	@git checkout master
 	@git merge devel
 	@git checkout devel
