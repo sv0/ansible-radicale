@@ -7,7 +7,6 @@
 - name: Install required packages
   ansible.builtin.package:
     name:
-      - nginx
       - python3-passlib
       - python3-radicale
       - radicale
@@ -28,14 +27,9 @@
     file: certificate.yml
   tags:
     - cert
-
-# TODO delete
-# - name: Create directory {{ radicale_pidfile | dirname }}
-#   ansible.builtin.file:
-#     path: "{{ radicale_pidfile | dirname }}"
-#     state: directory
-#     owner: root
-#     mode: 0755
+  when:
+    - radicale_enable_ssl is defined
+    - (radicale_enable_ssl)
 
 - name: Create directories in /var/lib/radicale
   ansible.builtin.file:

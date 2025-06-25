@@ -4,6 +4,7 @@ radicale_hosts:
   - '0.0.0.0'
 
 radicale_domain: "cal.svyrydiuk.eu"  # CHANGE it in your inventory/playbook
+radicale_enable_ssl: true
 radicale_certificate_dir:
 radicale_tls_certificate: "/etc/ssl/{{ radicale_domain }}.crt"
 radicale_tls_private_key: "/etc/ssl/private/{{ radicale_domain }}.key"

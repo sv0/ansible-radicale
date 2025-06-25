@@ -18,6 +18,7 @@ hosts =
 # File storing the PID in daemon mode
 #pid =
 
+{% if radicale_enable_ssl %}
 # SSL flag, enable HTTPS protocol
 ssl = True
 
@@ -28,7 +29,8 @@ certificate = {{ radicale_tls_certificate }}
 key = {{ radicale_tls_private_key }}
 
 # Ciphers available. See python's ssl module for available ciphers
-#ciphers =
+# ciphers =
+{% endif %}
 
 # Root URL of Radicale (starting and ending with a slash)
 #base_prefix = /
@@ -39,7 +41,6 @@ key = {{ radicale_tls_private_key }}
 # Message displayed in the client when a password is needed
 #realm = Radicale - Password Required
 
-
 [encoding]
 
 # Encoding for responding requests
@@ -47,7 +48,6 @@ key = {{ radicale_tls_private_key }}
 
 # Encoding for storing local collections
 #stock = utf-8
-
 
 
 [auth]
