@@ -1,4 +1,4 @@
-# Radicale Ansible role v. 0.0.5
+# Radicale Ansible role v. 0.1.0
 
 [![CI](https://github.com/sv0/ansible-radicale/actions/workflows/ci.yml/badge.svg)](https://github.com/sv0/ansible-radicale/actions/workflows/ci.yml)
 
