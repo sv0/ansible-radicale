@@ -84,4 +84,4 @@
   with_items: "{{ radicale_user_list }}"
   when:
     - radicale_user_list is defined
-    - (radicale_user_list)
+    - (radicale_user_list|length > 0)
