@@ -12,7 +12,7 @@
       ansible.builtin.debug:
         var: ansible_distribution_release
 
-    - name: apt-get update
+    - name: Run apt-get update
       ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 86400
