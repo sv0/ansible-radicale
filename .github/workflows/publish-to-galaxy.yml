@@ -1,19 +1,23 @@
 ---
 name: Galaxy Action
 
-on:
+on:  # yamllint disable-line rule:truthy
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Main workflow"
+    types:
+      - completed
   push:
-    branches:
-      - master
     tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v4
-
       - name: galaxy
         uses: robertdebock/galaxy-action@1.2.1
         with:
