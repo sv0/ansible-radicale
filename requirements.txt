@@ -1,6 +1,6 @@
-molecule>=24.2,<25.0
-molecule-plugins[docker]>=23.5,<24.0
-ansible-core>=2.14,<2.17
-ansible-lint>=24.2,<25.0
+molecule>=25.7,<26.0
+molecule-plugins[docker]>=25.8,<26.0
+ansible-core>=2.14,<2.20
+ansible-lint>=25.2,<26.0
 pytest>=8.1,<9.0
 pytest-testinfra>=10.1,<11.0
