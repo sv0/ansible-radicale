@@ -20,6 +20,7 @@ It has been tested for the following Linux distributions:
 
 - Debian Bullseye
 - Debian Bookworm
+- Debian Trixie
 
 ## Prerequisities
 

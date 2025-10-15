@@ -48,9 +48,6 @@ jobs:
           - distro: debian-11-systemd
           - distro: debian-12-systemd
           - distro: debian-13-systemd
-          # - distro: ubuntu1604
-          #   ansible-version: '>=2.10, <2.11'
-          # - distro: ubuntu2004
 
     steps:
       - name: Check out the codebase
@@ -64,11 +61,8 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies
-        # run: pip install 'ansible${{ matrix.ansible-version }}' \
-        # molecule[docker] docker
         run: |
           pip install -r requirements.txt
-          # test -f requirements.yml && \
           ansible-galaxy install -r requirements.yml
 
       - name: Run Molecule tests
